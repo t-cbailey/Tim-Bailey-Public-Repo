@@ -1,7 +1,6 @@
-const { selectCategories } = require("./models");
+const { selectCategories, findReviewByID } = require("./models");
 
 exports.getCategories = (req, res, next) => {
-  console.log("in controllers");
   selectCategories()
     .then((categories) => {
       res.status(200).send({ categories });
@@ -9,6 +8,15 @@ exports.getCategories = (req, res, next) => {
     .catch((err) => {
       next(err);
     });
+};
 
-  //add some error handling
+exports.getReviewByID = (req, res, next) => {
+  const id = req.params;
+  findReviewByID(id)
+    .then((review) => {
+      res.status(200).send({ review });
+    })
+    .catch((err) => {
+      next(err);
+    });
 };
