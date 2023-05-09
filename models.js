@@ -1,14 +1,10 @@
+const { response } = require("express");
 const connection = require("./db/connection");
+
 exports.selectCategories = () => {
-  return connection
-    .query(
-      `
-    SELECT * FROM categories;
-    `
-    )
-    .then((res) => {
-      return res.rows;
-    });
+  return connection.query(`SELECT * FROM categories;`).then((res) => {
+    return res.rows;
+  });
 };
 
 exports.findReviewByID = (id) => {
