@@ -1,7 +1,7 @@
 const { selectCategories } = require("./models");
+const endpoints = require("./endpoints.json");
 
 exports.getCategories = (req, res, next) => {
-  console.log("in controllers");
   selectCategories()
     .then((categories) => {
       res.status(200).send({ categories });
@@ -9,6 +9,8 @@ exports.getCategories = (req, res, next) => {
     .catch((err) => {
       next(err);
     });
+};
 
-  //add some error handling
+exports.getEndpoints = (req, res, next) => {
+  res.status(200).send({ endpoints });
 };

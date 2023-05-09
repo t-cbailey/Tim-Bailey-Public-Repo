@@ -18,7 +18,6 @@ describe("App", () => {
       .get("/api/nonsense")
       .expect(404)
       .then((res) => {
-        console.log(res.body);
         expect(res.body.msg).toBe("Sorry can't find that!");
       });
   });
@@ -36,6 +35,17 @@ describe("/api/categories", () => {
           expect(typeof category.slug).toBe("string");
           expect(typeof category.description).toBe("string");
         });
+      });
+  });
+});
+
+describe("/api", () => {
+  test("GET 200- responds with a list of endpoints in JSON", () => {
+    return request(app)
+      .get("/api")
+      .expect(200)
+      .then((res) => {
+        expect(typeof res).toBe("object");
       });
   });
 });
