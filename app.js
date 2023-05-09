@@ -1,8 +1,9 @@
 const express = require("express");
 const app = express();
-const { getCategories } = require("./controllers");
+const { getCategories, getEndpoints } = require("./controllers");
 
 app.get("/api/categories", getCategories);
+app.get("/api", getEndpoints);
 
 app
   .use((err, req, res, next) => {
