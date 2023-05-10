@@ -7,6 +7,8 @@ app.get("/api", getEndpoints);
 
 app.get("/api/reviews/:review_id", getReviewByID);
 
+//app.get("/api/reviews/:review_id/comments", getCommentsByRevID);
+
 app
   .use((err, req, res, next) => {
     if (err.status && err.msg) {

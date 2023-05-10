@@ -84,4 +84,22 @@ describe("App", () => {
         });
     });
   });
+
+  //   describe("/api/reviews/:review_id/comments", () => {
+  //     test("GET 200- should respond with an array of comments for the given review id.", () => {
+  //       return request(app)
+  //         .get("/api/reviews/2/comments")
+  //         .then((res) => {
+  //           expect(res.body.comments.length).toBe(3);
+  //           res.body.comments.forEach((comment) => {
+  //             expect(typeof comment.comment_id).toBe("number");
+  //             expect(typeof comment.votes).toBe("number");
+  //             expect(typeof comment.created_at).toBe("string");
+  //             expect(typeof comment.author).toBe("string");
+  //             expect(typeof comment.body).toBe("string");
+  //             expect(typeof comment.review_id).toBe("number");
+  //           });
+  //         });
+  //     });
+  //   });
 });

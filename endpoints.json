@@ -31,5 +31,6 @@
         }
       ]
     }
-  }
+  },
+  "GET /api/reviews/review_id": {"description" : "serves an object with containg data for the selected review_id"}
 }
