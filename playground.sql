@@ -1,5 +1,5 @@
 \c nc_games_test
-SELECT owner, title, category, review_img_url, reviews.created_at, reviews.votes, designer,reviews.review_id, COUNT (comments.review_id) AS comment_count FROM reviews
-LEFT JOIN comments ON reviews.review_id = comments.review_id
-GROUP BY reviews.review_id
-ORDER BY reviews.created_at ASC;
+SELECT comments.comment_id, comments.votes, comments.created_at, comments.author, comments.body, comments.review_id FROM reviews 
+JOIN comments ON comments.review_id = reviews.review_id
+WHERE reviews.review_id = 3
+ORDER BY comments.created_at;

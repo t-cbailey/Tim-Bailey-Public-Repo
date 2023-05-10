@@ -1,4 +1,8 @@
-const { selectCategories, findReviewByID } = require("./models");
+const {
+  selectCategories,
+  findReviewByID,
+  findCommentsByRevID,
+} = require("./models");
 const endpoints = require("./endpoints.json");
 
 exports.getCategories = (req, res, next) => {
@@ -6,9 +10,7 @@ exports.getCategories = (req, res, next) => {
     .then((categories) => {
       res.status(200).send({ categories });
     })
-    .catch((err) => {
-      next(err);
-    });
+    .catch(next);
 };
 
 exports.getReviewByID = (req, res, next) => {
@@ -17,10 +19,17 @@ exports.getReviewByID = (req, res, next) => {
     .then((review) => {
       res.status(200).send({ review });
     })
-    .catch((err) => {
-      next(err);
-    });
+    .catch(next);
 };
 exports.getEndpoints = (req, res, next) => {
   res.status(200).send({ endpoints });
+};
+
+exports.getCommentsByRevID = (req, res, next) => {
+  const id = req.params;
+  findCommentsByRevID(id)
+    .then((comments) => {
+      res.status(200).send({ comments });
+    })
+    .catch(next);
 };
