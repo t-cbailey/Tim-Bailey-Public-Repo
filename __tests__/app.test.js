@@ -70,7 +70,7 @@ describe("App", () => {
         .get("/api/reviews/2000")
         .expect(404)
         .then((res) => {
-          expect(res.body.msg).toBe("Invalid input!");
+          expect(res.body.msg).toBe("Nothing Found!");
         });
     });
   });

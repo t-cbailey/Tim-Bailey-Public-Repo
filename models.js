@@ -13,7 +13,7 @@ exports.findReviewByID = (id) => {
     .query(`SELECT * FROM reviews WHERE review_id = $1`, arr)
     .then((res) => {
       return res.rows.length === 0
-        ? Promise.reject({ status: 404, msg: "Invalid input!" })
+        ? Promise.reject({ status: 404, msg: "Nothing Found!" })
         : res.rows;
     });
 };
