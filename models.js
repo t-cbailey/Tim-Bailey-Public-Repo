@@ -21,7 +21,7 @@ exports.selectReviews = () => {
 };
 
 exports.findReviewByID = (id) => {
-  const arr = [parseInt(id.review_id)];
+  const arr = [id.review_id];
   return connection
     .query(`SELECT * FROM reviews WHERE review_id = $1`, arr)
     .then((res) => {
