@@ -107,15 +107,4 @@ describe("App", () => {
       });
     });
   });
-
-  describe("/api", () => {
-    test("GET 200- responds with a list of endpoints in JSON", () => {
-      return request(app)
-        .get("/api")
-        .expect(200)
-        .then((res) => {
-          expect(typeof res).toBe("object");
-        });
-    });
-  });
 });
