@@ -65,46 +65,63 @@ describe("App", () => {
             expect(typeof review.created_at).toBe("string");
             expect(typeof review.votes).toBe("number");
             expect(typeof review.designer).toBe("string");
-            //I CANNOT make comment count into a number. it just will not!
             expect(typeof review.comment_count).toBe("string");
           });
         });
     });
-    describe("/api/reviews/:review_id", () => {
-      test("GET 200- should respond with a review object, of the correct id ", () => {
-        return request(app)
-          .get("/api/reviews/1")
-          .expect(200)
-          .then((res) => {
-            expect(typeof res.body.review[0]).toBe("object");
+    test("comments_count should count the correct number of comments for each review", () => {
+      return request(app)
+        .get("/api/reviews")
+        .expect(200)
+        .then((res) => {
+          expect(res.body.reviews[0].comment_count).toBe("0");
+          expect(res.body.reviews[9].comment_count).toBe("3");
+        });
+    });
+    test("results should be sorted according to created_at ASC ", () => {
+      return request(app)
+        .get("/api/reviews")
+        .expect(200)
+        .then((res) => {
+          const arr = res.body.reviews;
+          expect(arr).toBeSortedBy("created_at");
+        });
+    });
+  });
+  describe("/api/reviews/:review_id", () => {
+    test("GET 200- should respond with a review object, of the correct id ", () => {
+      return request(app)
+        .get("/api/reviews/1")
+        .expect(200)
+        .then((res) => {
+          expect(typeof res.body.review[0]).toBe("object");
 
-            expect(typeof res.body.review[0].review_id).toBe("number");
-            expect(typeof res.body.review[0].title).toBe("string");
-            expect(typeof res.body.review[0].category).toBe("string");
-            expect(typeof res.body.review[0].designer).toBe("string");
-            expect(typeof res.body.review[0].owner).toBe("string");
-            expect(typeof res.body.review[0].review_body).toBe("string");
-            expect(typeof res.body.review[0].review_img_url).toBe("string");
-            expect(typeof res.body.review[0].created_at).toBe("string");
-            expect(typeof res.body.review[0].votes).toBe("number");
-          });
-      });
-      test("GET 404 when passed anything other than a number recieve invalid id number", () => {
-        return request(app)
-          .get("/api/reviews/cuppatea")
-          .expect(404)
-          .then((res) => {
-            expect(res.body.msg).toBe("ID must be a number");
-          });
-      });
-      test("GET 404 when nothing is returned recieve not found", () => {
-        return request(app)
-          .get("/api/reviews/2000")
-          .expect(404)
-          .then((res) => {
-            expect(res.body.msg).toBe("Nothing Found!");
-          });
-      });
+          expect(typeof res.body.review[0].review_id).toBe("number");
+          expect(typeof res.body.review[0].title).toBe("string");
+          expect(typeof res.body.review[0].category).toBe("string");
+          expect(typeof res.body.review[0].designer).toBe("string");
+          expect(typeof res.body.review[0].owner).toBe("string");
+          expect(typeof res.body.review[0].review_body).toBe("string");
+          expect(typeof res.body.review[0].review_img_url).toBe("string");
+          expect(typeof res.body.review[0].created_at).toBe("string");
+          expect(typeof res.body.review[0].votes).toBe("number");
+        });
+    });
+    test("GET 404 when passed anything other than a number recieve invalid id number", () => {
+      return request(app)
+        .get("/api/reviews/cuppatea")
+        .expect(404)
+        .then((res) => {
+          expect(res.body.msg).toBe("ID must be a number");
+        });
+    });
+    test("GET 404 when nothing is returned recieve not found", () => {
+      return request(app)
+        .get("/api/reviews/2000")
+        .expect(404)
+        .then((res) => {
+          expect(res.body.msg).toBe("Nothing Found!");
+        });
     });
   });
 });
