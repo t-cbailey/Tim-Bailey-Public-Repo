@@ -107,12 +107,12 @@ describe("App", () => {
           expect(typeof res.body.review[0].votes).toBe("number");
         });
     });
-    test("GET 404 when passed anything other than a number recieve invalid id number", () => {
+    test("GET 400 when passed anything other than a number recieve invalid id number", () => {
       return request(app)
         .get("/api/reviews/cuppatea")
-        .expect(404)
+        .expect(400)
         .then((res) => {
-          expect(res.body.msg).toBe("ID must be a number");
+          expect(res.body.msg).toBe("Invalid Input");
         });
     });
     test("GET 404 when nothing is returned recieve not found", () => {
@@ -151,12 +151,12 @@ describe("App", () => {
         });
     });
 
-    test("GET 404- when passed anything other than a number, recieve invalid id", () => {
+    test("GET 400- when passed anything other than a number, recieve invalid id", () => {
       return request(app)
         .get("/api/reviews/cuppatea/comments")
-        .expect(404)
+        .expect(400)
         .then((res) => {
-          expect(res.body.msg).toBe("ID must be a number");
+          expect(res.body.msg).toBe("Invalid Input");
         });
     });
     test("GET 404- when id is correct format but id does not exist return error", () => {
@@ -173,6 +173,108 @@ describe("App", () => {
         .expect(200)
         .then((res) => {
           expect(res.body.comments).toEqual([]);
+        });
+    });
+  });
+  describe("/api/reviews/:review_id/comments", () => {
+    test("POST 201- adds a comment to the database", () => {
+      const commentData = {
+        username: "mallionaire",
+        body: "my review text",
+      };
+      return request(app)
+        .post("/api/reviews/1/comments")
+        .send(commentData)
+        .expect(201)
+        .then((res) => {
+          expect(res.body.commentData.length).toBe(1);
+          expect(typeof res.body.commentData[0].body).toBe("string");
+          expect(typeof res.body.commentData[0].votes).toBe("number");
+          expect(typeof res.body.commentData[0].author).toBe("string");
+          expect(typeof res.body.commentData[0].review_id).toBe("number");
+          expect(typeof res.body.commentData[0].created_at).toBe("string");
+        });
+    });
+
+    test("POST 404- incorrect username", () => {
+      const commentData = {
+        username: "timbo",
+        body: "my review text",
+      };
+      return request(app)
+        .post("/api/reviews/1/comments")
+        .send(commentData)
+        .expect(404)
+        .then(({ body }) => {
+          expect(body.msg).toBe("Review or user not found");
+        });
+    });
+    test("POST 404- review_id not found", () => {
+      const commentData = {
+        username: "mallionaire",
+        body: "my review text",
+      };
+      return request(app)
+        .post("/api/reviews/2000/comments")
+        .send(commentData)
+        .expect(404)
+        .then(({ body }) => {
+          expect(body.msg).toBe("Review or user not found");
+        });
+    });
+
+    test("POST 400- review_id invalid", () => {
+      const commentData = {
+        username: "mallionaire",
+        body: "my review text",
+      };
+      return request(app)
+        .post("/api/reviews/nonsense/comments")
+        .send(commentData)
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.msg).toBe("Invalid Input");
+        });
+    });
+    test("POST 400- incorrect body format- too much data", () => {
+      const commentData = {
+        username: "mallionaire",
+        body: "bodytext",
+        extraProp1: "prop",
+        extraProp2: "prop2",
+      };
+      return request(app)
+        .post("/api/reviews/1/comments")
+        .send(commentData)
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.msg).toBe("Unsupported body format");
+        });
+    });
+    test("POST 400- incorrect body format- wrong object keys", () => {
+      const commentData = {
+        nonsense: "mallion",
+        morenonsense: 1,
+      };
+      return request(app)
+        .post("/api/reviews/1/comments")
+        .send(commentData)
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.msg).toBe("Unsupported body format");
+        });
+    });
+    test("POST 400- incorrect body format- wrong body type", () => {
+      const commentData = {
+        username: "mallionaire",
+        body: 1,
+      };
+      return request(app)
+        .post("/api/reviews/1/comments")
+        .send(commentData)
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.msg).toBe("Unsupported body format");
         });
     });
   });
