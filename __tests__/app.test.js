@@ -123,7 +123,29 @@ describe("App", () => {
           expect(res.body.msg).toBe("Nothing Found!");
         });
     });
+    // test("PATCH 202- updates the votes property of given review_id by amount specified", () => {
+    //   const newVote = 1;
+    //   const dataToSend = { inc_votes: newVote };
+    //   return request(app)
+    //     .patch("/api/reviews/1")
+    //     .expect(201)
+    //     .then((res) => {
+    //       expect(typeof res.body).toBe(Object);
+    //       expect(typeof res.body.review[0].review_id).toBe("number");
+    //       expect(typeof res.body.review[0].title).toBe("string");
+    //       expect(typeof res.body.review[0].category).toBe("string");
+    //       expect(typeof res.body.review[0].designer).toBe("string");
+    //       expect(typeof res.body.review[0].owner).toBe("string");
+    //       expect(typeof res.body.review[0].review_body).toBe("string");
+    //       expect(typeof res.body.review[0].review_img_url).toBe("string");
+    //       expect(typeof res.body.review[0].created_at).toBe("string");
+    //       expect(typeof res.body.review[0].votes).toBe("number");
+
+    //       expect(res.body.review[0].votes).toBe(2);
+    //     });
+    // });
   });
+
   describe("/api/reviews/:review_id/comments", () => {
     test("GET 200- should respond with an array of comments for the given review id.", () => {
       return request(app)
