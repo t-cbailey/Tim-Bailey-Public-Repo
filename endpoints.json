@@ -66,8 +66,7 @@
         "created_at": "string"
       }
     }
-  }
-
+  },
 
   "Patch /api/reviews/review_id": {
     "description": "adds the value of inc_votes to the votes of given review id",

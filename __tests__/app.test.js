@@ -153,9 +153,9 @@ describe("App", () => {
         return request(app)
           .patch("/api/reviews/nonsense")
           .send(dataToSend)
-          .expect(404)
+          .expect(400)
           .then((res) => {
-            expect(res.body.msg).toBe("ID must be a number");
+            expect(res.body.msg).toBe("Invalid Input");
           });
       });
       test("PATCH 404- when id is correct format but id does not exist return error", () => {
