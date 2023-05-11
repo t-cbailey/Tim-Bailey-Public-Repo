@@ -22,6 +22,17 @@ describe("App", () => {
       });
   });
 
+  describe("/api", () => {
+    test("GET 200- responds with a list of endpoints in JSON", () => {
+      return request(app)
+        .get("/api")
+        .expect(200)
+        .then((res) => {
+          expect(typeof res).toBe("object");
+        });
+    });
+  });
+
   describe("/api/categories", () => {
     test("GET 200- responds with an array of category objects", () => {
       return request(app)
@@ -38,6 +49,45 @@ describe("App", () => {
     });
   });
 
+  describe("/api/reviews", () => {
+    test("GET 200- responds with an array of reviews objects", () => {
+      return request(app)
+        .get("/api/reviews")
+        .expect(200)
+        .then((res) => {
+          expect(res.body.reviews.length).toBe(13);
+          res.body.reviews.forEach((review) => {
+            expect(typeof review.owner).toBe("string");
+            expect(typeof review.title).toBe("string");
+            expect(typeof review.review_id).toBe("number");
+            expect(typeof review.category).toBe("string");
+            expect(typeof review.review_img_url).toBe("string");
+            expect(typeof review.created_at).toBe("string");
+            expect(typeof review.votes).toBe("number");
+            expect(typeof review.designer).toBe("string");
+            expect(typeof review.comment_count).toBe("string");
+          });
+        });
+    });
+    test("comments_count should count the correct number of comments for each review", () => {
+      return request(app)
+        .get("/api/reviews")
+        .expect(200)
+        .then((res) => {
+          expect(res.body.reviews[0].comment_count).toBe("0");
+          expect(res.body.reviews[9].comment_count).toBe("3");
+        });
+    });
+    test("results should be sorted according to created_at ASC ", () => {
+      return request(app)
+        .get("/api/reviews")
+        .expect(200)
+        .then((res) => {
+          const arr = res.body.reviews;
+          expect(arr).toBeSortedBy("created_at");
+        });
+    });
+  });
   describe("/api/reviews/:review_id", () => {
     test("GET 200- should respond with a review object, of the correct id ", () => {
       return request(app)
@@ -73,17 +123,7 @@ describe("App", () => {
           expect(res.body.msg).toBe("Nothing Found!");
         });
     });
-  });
-  describe("/api", () => {
-    test("GET 200- responds with a list of endpoints in JSON", () => {
-      return request(app)
-        .get("/api")
-        .expect(200)
-        .then((res) => {
-          expect(typeof res).toBe("object");
-        });
-    });
-  });
+
 
   describe("/api/reviews/:review_id/comments", () => {
     test("GET 200- should respond with an array of comments for the given review id.", () => {
@@ -137,4 +177,5 @@ describe("App", () => {
         expect(res.body.comments).toEqual([]);
       });
   });
+
 });

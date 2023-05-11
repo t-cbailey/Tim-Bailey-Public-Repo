@@ -1,5 +1,1 @@
-You are now connected to database "nc_games_test" as user "timbailey".
- review_id | title | category | designer | owner | review_body | review_img_url | created_at | votes 
------------+-------+----------+----------+-------+-------------+----------------+------------+-------
-(0 rows)
 

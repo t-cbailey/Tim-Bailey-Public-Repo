@@ -32,5 +32,22 @@
       ]
     }
   },
-  "GET /api/reviews/review_id": {"description" : "serves an object with containg data for the selected review_id"}
+
+  "GET /api/reviews/review_id/comments": {
+    "description": "serves an array of all reviews for given review_id",
+    "queries": [],
+    "exampleResponse": {
+      "categories": [
+        {
+          "comment_id": 1,
+          "votes": 1,
+          "created_at": "date string",
+          "author": "author string",
+          "body": "string",
+          "review_id": 1
+        }
+      ]
+    }
+  }
+
 }
