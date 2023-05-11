@@ -21,17 +21,12 @@ app
   })
   .use((err, req, res, next) => {
     if (err.code === "22P02") {
-      res.status(404).send({ msg: "ID must be a number" });
+      res.status(404).send({ msg: "review ID must be a number" });
     } else next(err);
   })
   .use((err, req, res, next) => {
     if (err.code === "23503") {
       res.status(404).send({ msg: "Review or user not found" });
-    } else next(err);
-  })
-  .use((err, req, res, next) => {
-    if (err.code === "23502") {
-      res.status(400).send({ msg: "Unsupported body format" });
     } else next(err);
   })
   .use((req, res, next) =>

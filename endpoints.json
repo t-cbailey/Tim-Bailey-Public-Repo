@@ -49,10 +49,20 @@
     }
   },
   "POST /api/reviews/review_id/comments": {
-    "description": "posts a review to the given review id",
+    "description": "posts a review to the given review id, and receives the full entry as a response",
     "queries": [],
+    "request body": {
+      "username": "valid_user_name",
+      "body": "my review text"
+    },
     "exampleResponse": {
-      "categories": { "username": "string", "body": "string" }
+      "categories": {
+        "body": "string",
+        "votes": 1,
+        "author": "string",
+        "review_id": 1,
+        "created_at": "string"
+      }
     }
   }
 }

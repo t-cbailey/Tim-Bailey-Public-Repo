@@ -21,13 +21,21 @@ exports.findReviewByID = (id) => {
 exports.postReviewComment = (id, data) => {
   const review_id = parseInt(id.review_id);
   const { username, body } = data;
-
-  return connection
-    .query(
-      `INSERT INTO comments (author, body, review_id) VALUES ($1, $2, $3) RETURNING *`,
-      [username, body, review_id]
-    )
-    .then((res) => {
-      return res.rows;
-    });
+  if (
+    !data.hasOwnProperty("username") ||
+    !data.hasOwnProperty("body") ||
+    typeof data.body != "string" ||
+    Object.keys(data).length > 2
+  ) {
+    return Promise.reject({ status: 400, msg: "Unsupported body format" });
+  } else {
+    return connection
+      .query(
+        `INSERT INTO comments (author, body, review_id) VALUES ($1, $2, $3) RETURNING *`,
+        [username, body, review_id]
+      )
+      .then((res) => {
+        return res.rows;
+      });
+  }
 };
