@@ -1,5 +1,9 @@
-
-const { selectCategories, selectReviews, findReviewByID,findCommentsByRevID } = require("./models");
+const {
+  selectCategories,
+  selectReviews,
+  findReviewByID,
+  findCommentsByRevID,
+} = require("./models");
 const endpoints = require("./endpoints.json");
 const reviews = require("./db/data/test-data/reviews");
 
@@ -23,7 +27,6 @@ exports.getEndpoints = (req, res, next) => {
   res.status(200).send({ endpoints });
 };
 
-
 exports.getCommentsByRevID = (req, res, next) => {
   const id = req.params;
   findCommentsByRevID(id)
@@ -31,6 +34,7 @@ exports.getCommentsByRevID = (req, res, next) => {
       res.status(200).send({ comments });
     })
     .catch(next);
+};
 
 exports.getReviews = (req, res, next) => {
   selectReviews()
@@ -40,5 +44,4 @@ exports.getReviews = (req, res, next) => {
     .catch((err) => {
       next(err);
     });
-
 };

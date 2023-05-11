@@ -123,8 +123,7 @@ describe("App", () => {
           expect(res.body.msg).toBe("Nothing Found!");
         });
     });
-
-
+  });
   describe("/api/reviews/:review_id/comments", () => {
     test("GET 200- should respond with an array of comments for the given review id.", () => {
       return request(app)
@@ -168,14 +167,13 @@ describe("App", () => {
           expect(res.body.msg).toBe("Resource not found");
         });
     });
+    test("GET 200- when id is valid but has no comments, recieve empty array", () => {
+      return request(app)
+        .get("/api/reviews/1/comments")
+        .expect(200)
+        .then((res) => {
+          expect(res.body.comments).toEqual([]);
+        });
+    });
   });
-  test("GET 200- when id is valid but has no comments, recieve empty array", () => {
-    return request(app)
-      .get("/api/reviews/1/comments")
-      .expect(200)
-      .then((res) => {
-        expect(res.body.comments).toEqual([]);
-      });
-  });
-
 });
