@@ -10,6 +10,7 @@ const {
   postReviewCommentById,
   getCommentsByRevID,
   getReviews,
+  patchReviewVotesByRevID,
 } = require("./controllers");
 
 app.get("/api", getEndpoints);
@@ -18,6 +19,7 @@ app.get("/api/reviews", getReviews);
 app.get("/api/reviews/:review_id", getReviewByID);
 app.post("/api/reviews/:review_id/comments", postReviewCommentById);
 app.get("/api/reviews/:review_id/comments", getCommentsByRevID);
+app.patch("/api/reviews/:review_id", patchReviewVotesByRevID);
 
 app
   .use((err, req, res, next) => {
