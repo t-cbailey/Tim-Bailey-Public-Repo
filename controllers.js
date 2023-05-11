@@ -1,9 +1,15 @@
 const {
   selectCategories,
-  selectReviews,
+
   findReviewByID,
+  postReviewComment,
+
+  selectReviews,
+
   findCommentsByRevID,
+
   patchReviewVotes,
+
 } = require("./models");
 const endpoints = require("./endpoints.json");
 const reviews = require("./db/data/test-data/reviews");
@@ -26,6 +32,17 @@ exports.getReviewByID = (req, res, next) => {
 };
 exports.getEndpoints = (req, res, next) => {
   res.status(200).send({ endpoints });
+};
+
+
+exports.postReviewCommentById = (req, res, next) => {
+  const id = req.params;
+  const data = req.body;
+  postReviewComment(id, data)
+    .then((commentData) => {
+      res.status(201).send({ commentData });
+    })
+    .catch(next);
 };
 
 exports.getCommentsByRevID = (req, res, next) => {
@@ -54,3 +71,4 @@ exports.patchReviewVotesByRevID = (req, res, next) => {
     })
     .catch(next);
 };
+
