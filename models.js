@@ -1,4 +1,4 @@
-const { response } = require("express");
+const { checkExists } = require("./app_utils");
 const connection = require("./db/connection");
 
 exports.selectCategories = () => {
@@ -29,4 +29,23 @@ exports.findReviewByID = (id) => {
         ? Promise.reject({ status: 404, msg: "Nothing Found!" })
         : res.rows;
     });
+};
+
+exports.findCommentsByRevID = (id) => {
+  const table = "reviews";
+  const column = "review_id";
+  review_id = parseInt(id.review_id);
+
+  return Promise.all([
+    checkExists(table, column, review_id),
+    connection.query(
+      `SELECT comments.comment_id, comments.votes, comments.created_at, comments.author, comments.body, comments.review_id FROM reviews 
+  JOIN comments ON comments.review_id = reviews.review_id
+  WHERE reviews.review_id = $1
+  ORDER BY comments.created_at;`,
+      [review_id]
+    ),
+  ]).then(([unusedCHKESTS, dbOutput]) => {
+    return dbOutput.rows;
+  });
 };

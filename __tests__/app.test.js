@@ -123,5 +123,59 @@ describe("App", () => {
           expect(res.body.msg).toBe("Nothing Found!");
         });
     });
+
+
+  describe("/api/reviews/:review_id/comments", () => {
+    test("GET 200- should respond with an array of comments for the given review id.", () => {
+      return request(app)
+        .get("/api/reviews/2/comments")
+        .then((res) => {
+          expect(res.body.comments.length).toBe(3);
+          res.body.comments.forEach((comment) => {
+            expect(typeof comment.comment_id).toBe("number");
+            expect(typeof comment.votes).toBe("number");
+            expect(typeof comment.created_at).toBe("string");
+            expect(typeof comment.author).toBe("string");
+            expect(typeof comment.body).toBe("string");
+            expect(typeof comment.review_id).toBe("number");
+          });
+        });
+    });
+
+    test("GET 200- array should be ordered by created_at ", () => {
+      return request(app)
+        .get("/api/reviews/2/comments")
+        .expect(200)
+        .then((res) => {
+          const arr = res.body.comments;
+          expect(arr).toBeSortedBy("created_at");
+        });
+    });
+
+    test("GET 404- when passed anything other than a number, recieve invalid id", () => {
+      return request(app)
+        .get("/api/reviews/cuppatea/comments")
+        .expect(404)
+        .then((res) => {
+          expect(res.body.msg).toBe("ID must be a number");
+        });
+    });
+    test("GET 404- when id is correct format but id does not exist return error", () => {
+      return request(app)
+        .get("/api/reviews/2000/comments")
+        .expect(404)
+        .then((res) => {
+          expect(res.body.msg).toBe("Resource not found");
+        });
+    });
   });
+  test("GET 200- when id is valid but has no comments, recieve empty array", () => {
+    return request(app)
+      .get("/api/reviews/1/comments")
+      .expect(200)
+      .then((res) => {
+        expect(res.body.comments).toEqual([]);
+      });
+  });
+
 });

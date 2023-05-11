@@ -32,6 +32,7 @@
       ]
     }
   },
+
   "GET /api/reviews/review_id/comments": {
     "description": "serves an array of all reviews for given review_id",
     "queries": [],
@@ -48,4 +49,5 @@
       ]
     }
   }
+
 }
