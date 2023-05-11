@@ -112,7 +112,7 @@ describe("App", () => {
         });
     });
 
-    test("GET 404 when passed anything other than a number recieve invalid id", () => {
+    test("GET 404- when passed anything other than a number, recieve invalid id", () => {
       return request(app)
         .get("/api/reviews/cuppatea/comments")
         .expect(404)
@@ -120,13 +120,21 @@ describe("App", () => {
           expect(res.body.msg).toBe("ID must be a number");
         });
     });
-    test("GET 404 when id is correct but nothing is found", () => {
+    test("GET 404- when id is correct format but id does not exist return error", () => {
       return request(app)
         .get("/api/reviews/2000/comments")
         .expect(404)
         .then((res) => {
-          expect(res.body.msg).toBe("Nothing Found!");
+          expect(res.body.msg).toBe("Resource not found");
         });
     });
+  });
+  test("GET 200- when id is valid but has no comments, recieve empty array", () => {
+    return request(app)
+      .get("/api/reviews/1/comments")
+      .expect(200)
+      .then((res) => {
+        expect(res.body.comments).toEqual([]);
+      });
   });
 });
