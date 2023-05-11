@@ -48,6 +48,22 @@
         }
       ]
     }
-  }
+  },
 
+  "Patch /api/reviews/review_id": {
+    "description": "adds the value of inc_votes to the votes of given review id",
+    "queries": [],
+    "exampleResponse": {
+      "categories": [
+        {
+          "comment_id": 1,
+          "votes": 1,
+          "created_at": "date string",
+          "author": "author string",
+          "body": "string",
+          "review_id": 1
+        }
+      ]
+    }
+  }
 }
