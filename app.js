@@ -15,10 +15,10 @@ const {
 
 app.get("/api", getEndpoints);
 app.get("/api/categories", getCategories);
-app.get("/api/reviews", getReviews);
 app.get("/api/reviews/:review_id", getReviewByID);
-app.post("/api/reviews/:review_id/comments", postReviewCommentById);
+app.get("/api/reviews", getReviews);
 app.get("/api/reviews/:review_id/comments", getCommentsByRevID);
+app.post("/api/reviews/:review_id/comments", postReviewCommentById);
 app.patch("/api/reviews/:review_id", patchReviewVotesByRevID);
 
 app
