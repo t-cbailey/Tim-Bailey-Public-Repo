@@ -1,8 +1,2 @@
-You are now connected to database "nc_games_test" as user "timbailey".
- comment_id | votes |       created_at        |   author    |                                   body                                    | review_id 
-------------+-------+-------------------------+-------------+---------------------------------------------------------------------------+-----------
-          4 |    16 | 2017-11-22 12:36:03.389 | bainesface  | EPIC board game!                                                          |         2
-          1 |    16 | 2017-11-22 12:43:33.389 | bainesface  | I loved this game too!                                                    |         2
-          5 |    13 | 2021-01-18 10:24:05.41  | mallionaire | Now this is a story all about how, board games turned my life upside down |         2
-(3 rows)
+
 
