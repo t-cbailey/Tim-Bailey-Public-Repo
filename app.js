@@ -7,9 +7,7 @@ const {
   getCategories,
   getReviewByID,
   getEndpoints,
-
   postReviewCommentById,
-
   getCommentsByRevID,
   getReviews,
 } = require("./controllers");
@@ -18,7 +16,6 @@ app.get("/api", getEndpoints);
 app.get("/api/categories", getCategories);
 app.get("/api/reviews", getReviews);
 app.get("/api/reviews/:review_id", getReviewByID);
-app.get("/api/reviews", getReviews);
 app.post("/api/reviews/:review_id/comments", postReviewCommentById);
 app.get("/api/reviews/:review_id/comments", getCommentsByRevID);
 
