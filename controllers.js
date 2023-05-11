@@ -3,6 +3,7 @@ const {
   selectReviews,
   findReviewByID,
   findCommentsByRevID,
+  patchReviewVotes,
 } = require("./models");
 const endpoints = require("./endpoints.json");
 const reviews = require("./db/data/test-data/reviews");
@@ -41,7 +42,16 @@ exports.getReviews = (req, res, next) => {
     .then((reviews) => {
       res.status(200).send({ reviews });
     })
-    .catch((err) => {
-      next(err);
-    });
+    .catch(next);
+};
+
+exports.patchReviewVotesByRevID = (req, res, next) => {
+  const votesToAdd = req.body.inc_votes;
+  const reviewId = req.params.review_id;
+
+  patchReviewVotes(reviewId, votesToAdd)
+    .then((review) => {
+      res.status(201).send({ review });
+    })
+    .catch(next);
 };
