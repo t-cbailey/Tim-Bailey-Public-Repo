@@ -46,9 +46,8 @@ exports.getReviews = (req, res, next) => {
 };
 
 exports.patchReviewVotesByRevID = (req, res, next) => {
-  const votesToAdd = req.body.inc_votes;
+  const votesToAdd = req.body;
   const reviewId = req.params.review_id;
-
   patchReviewVotes(reviewId, votesToAdd)
     .then((review) => {
       res.status(201).send({ review });

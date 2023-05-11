@@ -51,15 +51,19 @@ exports.findCommentsByRevID = (id) => {
 };
 
 exports.patchReviewVotes = (id, votes) => {
-  return Promise.all([
-    checkExists("reviews", "review_id", id),
-    connection.query(
-      `UPDATE reviews
+  if (!votes.hasOwnProperty("inc_votes") || Object.keys(votes).length > 1) {
+    return Promise.reject({ status: 400, msg: "Unsupported body format" });
+  } else {
+    return Promise.all([
+      checkExists("reviews", "review_id", id),
+      connection.query(
+        `UPDATE reviews
       SET votes = votes + $2
       WHERE review_id = $1 RETURNING *`,
-      [id, votes]
-    ),
-  ]).then(([unusedCHKESTS, dbOutput]) => {
-    return dbOutput.rows;
-  });
+        [id, votes.inc_votes]
+      ),
+    ]).then(([unusedCHKESTS, dbOutput]) => {
+      return dbOutput.rows;
+    });
+  }
 };

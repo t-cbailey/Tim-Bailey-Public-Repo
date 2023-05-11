@@ -152,6 +152,7 @@ describe("App", () => {
         const dataToSend = { inc_votes: newVote };
         return request(app)
           .patch("/api/reviews/nonsense")
+          .send(dataToSend)
           .expect(404)
           .then((res) => {
             expect(res.body.msg).toBe("ID must be a number");
@@ -166,6 +167,19 @@ describe("App", () => {
           .expect(404)
           .then((res) => {
             expect(res.body.msg).toBe("Resource not found");
+          });
+      });
+      test("PATCH 400- incorrect body format- too much data", () => {
+        const dataToSend = {
+          inc_votes: 1,
+          body: "bodytext",
+        };
+        return request(app)
+          .patch("/api/reviews/1")
+          .send(dataToSend)
+          .expect(400)
+          .then(({ body }) => {
+            expect(body.msg).toBe("Unsupported body format");
           });
       });
     });
