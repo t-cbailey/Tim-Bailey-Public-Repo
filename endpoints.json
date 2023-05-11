@@ -36,7 +36,7 @@
     "description": "serves an array of all reviews for given review_id",
     "queries": [],
     "exampleResponse": {
-      "categories": [
+      "comments": [
         {
           "comment_id": 1,
           "votes": 1,
@@ -46,6 +46,13 @@
           "review_id": 1
         }
       ]
+    }
+  },
+  "POST /api/reviews/review_id/comments": {
+    "description": "posts a review to the given review id",
+    "queries": [],
+    "exampleResponse": {
+      "categories": { "username": "string", "body": "string" }
     }
   }
 }
