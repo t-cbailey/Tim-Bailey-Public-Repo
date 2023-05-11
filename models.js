@@ -24,7 +24,7 @@ exports.postReviewComment = (id, data) => {
   if (
     !data.hasOwnProperty("username") ||
     !data.hasOwnProperty("body") ||
-    typeof data.body != "string" ||
+    typeof data.body !== "string" ||
     Object.keys(data).length > 2
   ) {
     return Promise.reject({ status: 400, msg: "Unsupported body format" });

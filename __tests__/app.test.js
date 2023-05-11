@@ -57,12 +57,12 @@ describe("App", () => {
           expect(typeof res.body.review[0].votes).toBe("number");
         });
     });
-    test("GET 404 when passed anything other than a number recieve invalid id number", () => {
+    test("GET 400 when passed anything other than a number recieve invalid id number", () => {
       return request(app)
         .get("/api/reviews/cuppatea")
-        .expect(404)
+        .expect(400)
         .then((res) => {
-          expect(res.body.msg).toBe("review ID must be a number");
+          expect(res.body.msg).toBe("Invalid Input");
         });
     });
     test("GET 404 when nothing is returned recieve not found", () => {
@@ -131,7 +131,7 @@ describe("App", () => {
         });
     });
 
-    test("POST 404- review_id invalid", () => {
+    test("POST 400- review_id invalid", () => {
       const commentData = {
         username: "mallionaire",
         body: "my review text",
@@ -139,9 +139,9 @@ describe("App", () => {
       return request(app)
         .post("/api/reviews/nonsense/comments")
         .send(commentData)
-        .expect(404)
+        .expect(400)
         .then(({ body }) => {
-          expect(body.msg).toBe("review ID must be a number");
+          expect(body.msg).toBe("Invalid Input");
         });
     });
     test("POST 400- incorrect body format- too much data", () => {
