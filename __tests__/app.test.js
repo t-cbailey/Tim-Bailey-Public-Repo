@@ -12,7 +12,7 @@ beforeEach(() => {
   return seed(data);
 });
 
-describe.only("App", () => {
+describe("App", () => {
   test("status 404- page not found for incorrect endpoint ", () => {
     return request(app)
       .get("/api/nonsense")
@@ -338,18 +338,27 @@ describe.only("App", () => {
           });
       });
     });
-    // describe("/api/reviews (queries)", () => {
-    //   test("GET 200- allows sorting by category", () => {
-    //     return request(app)
-    //       .get("/api/reviews?category = dexterity")
-    //       .expect(200)
-    //       .then((res) => {
-    //         expect(res.body.reviews.length).toBe(1);
-    //         res.body.reviews.forEach((review) => {
-    //           expect(review.category).toBe("dexterity");
-    //         });
-    //       });
-    //   });
+    describe("/api/reviews (queries)", () => {
+      test("GET 200- allows filtering by category", () => {
+        return request(app)
+          .get("/api/reviews?category=dexterity")
+          .expect(200)
+          .then((res) => {
+            expect(res.body.reviews.length).toBe(1);
+            res.body.reviews.forEach((review) => {
+              expect(review.category).toBe("dexterity");
+            });
+          });
+      });
+    });
+    // test("GET 200- allows sorting by any column", () => {
+    //   return request(app)
+    //     .get("/api/reviews?sort_by=name")
+    //     .expect(200)
+    //     .then((res) => {
+    //       expect(res.body.reviews.length).toBe(13);
+    //       expect(res.body.reviews).toBeSortedBy("name");
+    //     });
     // });
   });
   describe("/api/comments", () => {

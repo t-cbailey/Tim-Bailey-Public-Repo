@@ -7,17 +7,25 @@ exports.selectCategories = () => {
   });
 };
 
-exports.selectReviews = () => {
-  return connection
-    .query(
-      `SELECT owner, title, category, review_img_url, reviews.created_at, reviews.votes, designer,reviews.review_id, COUNT (comments.review_id) AS comment_count FROM reviews
-    LEFT JOIN comments ON reviews.review_id = comments.review_id
-    GROUP BY reviews.review_id
-    ORDER BY reviews.created_at ASC;`
-    )
-    .then((res) => {
-      return res.rows;
-    });
+exports.selectReviews = (category) => {
+  const queryValues = [];
+  let queryStr = `SELECT owner, title, category, review_img_url, reviews.created_at, reviews.votes, designer,reviews.review_id, COUNT (comments.review_id) AS comment_count FROM reviews
+  LEFT JOIN comments ON reviews.review_id = comments.review_id
+  `;
+
+  if (category) {
+    queryValues.push(category);
+    queryStr += "WHERE category = $1 ";
+  }
+
+  queryStr += `
+          GROUP BY reviews.review_id
+      	  ORDER BY reviews.created_at ASC
+        `;
+
+  return connection.query(queryStr, queryValues).then((res) => {
+    return res.rows;
+  });
 };
 
 exports.findReviewByID = (id) => {
