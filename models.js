@@ -89,8 +89,18 @@ exports.patchReviewVotes = (id, votes) => {
     });
   }
 };
+
 exports.findUsers = () => {
   return connection.query(`SELECT * FROM users;`).then((users) => {
-    return users.rows;
+    return users.rows})}
+
+
+exports.removeComment = (id) => {
+  return Promise.all([
+    checkExists("comments", "comment_id", id),
+    connection.query(`DELETE FROM comments WHERE comment_id = $1`, [id]),
+  ]).then(([unusedCHKESTS, dbOutput]) => {
+    return undefined;
+
   });
 };

@@ -83,5 +83,24 @@
         }
       ]
     }
+  },
+
+  "GET /api/users": {
+    "description": "gets an array of users",
+    "queries": [],
+    "exampleResponse": {
+      "users": [
+        {
+          "username": "string",
+          "name": "string",
+          "avatar_url": "string"
+        }
+      ]
+    }
+  },
+  "DELETE /api/comments/:comment_id": {
+    "description": "removes the given comment, by comment id",
+    "queries": [],
+    "exampleResponse": "undefined"
   }
 }
