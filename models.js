@@ -89,3 +89,11 @@ exports.patchReviewVotes = (id, votes) => {
     });
   }
 };
+
+exports.removeComment = (id) => {
+  return connection
+    .query(`DELETE FROM comments WHERE comment_id = $1`, [id])
+    .then((res) => {
+      return res.rows;
+    });
+};
