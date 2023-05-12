@@ -30,7 +30,7 @@ exports.selectReviews = (
   }
 
   if (!validOrderQueries.includes(order_by)) {
-    return Promise.reject({ status: 400, msg: "Invalid order query!" });
+    return Promise.reject({ status: 400, msg: "Invalid order_by query!" });
   }
 
   const queryValues = [];

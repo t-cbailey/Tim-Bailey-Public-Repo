@@ -411,7 +411,7 @@ describe("App", () => {
           .get("/api/reviews?order_by=somenonsense")
           .expect(400)
           .then((res) => {
-            expect(res.body.msg).toBe("Invalid order query!");
+            expect(res.body.msg).toBe("Invalid order_by query!");
           });
       });
     });
