@@ -7,7 +7,11 @@ exports.selectCategories = () => {
   });
 };
 
-exports.selectReviews = (category, sort_by = "reviews.created_at") => {
+exports.selectReviews = (
+  category,
+  sort_by = "created_at",
+  order_by = "ASC"
+) => {
   const validSortQueries = [
     "owner",
     "title",
@@ -19,10 +23,15 @@ exports.selectReviews = (category, sort_by = "reviews.created_at") => {
     "review_id",
     "comment_count",
   ];
+  const validOrderQueries = ["asc", "desc", "ASC", "DESC"];
 
-  // if (!validSortQueries.includes(sort_by)) {
-  //   return Promise.reject({ status: 400, msg: "Invalid sort_by query!" });
-  // }
+  if (!validSortQueries.includes(sort_by)) {
+    return Promise.reject({ status: 400, msg: "Invalid sort_by query!" });
+  }
+
+  if (!validOrderQueries.includes(order_by)) {
+    return Promise.reject({ status: 400, msg: "Invalid order query!" });
+  }
 
   const queryValues = [];
   let queryStr = `SELECT owner, title, category, review_img_url, reviews.created_at, reviews.votes, designer,reviews.review_id, COUNT (comments.review_id) AS comment_count FROM reviews
@@ -36,7 +45,7 @@ exports.selectReviews = (category, sort_by = "reviews.created_at") => {
 
   queryStr += `
           GROUP BY reviews.review_id
-      	  ORDER BY ${sort_by} ASC
+      	  ORDER BY ${sort_by} ${order_by}
         `;
 
   return connection.query(queryStr, queryValues).then((res) => {

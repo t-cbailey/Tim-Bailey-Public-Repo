@@ -50,9 +50,9 @@ exports.getCommentsByRevID = (req, res, next) => {
 };
 
 exports.getReviews = (req, res, next) => {
-  const { category, sort_by } = req.query;
+  const { category, sort_by, order_by } = req.query;
 
-  selectReviews(category, sort_by)
+  selectReviews(category, sort_by, order_by)
     .then((reviews) => {
       res.status(200).send({ reviews });
     })
