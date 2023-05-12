@@ -3,6 +3,7 @@ const app = require("../app");
 const connection = require("../db/connection");
 const seed = require("../db/seeds/seed");
 const data = require("../db/data/test-data");
+const { expect } = require("@jest/globals");
 
 afterAll(() => {
   connection.end();
@@ -336,6 +337,23 @@ describe.only("App", () => {
             expect(body.msg).toBe("Unsupported body format");
           });
       });
+    });
+  });
+  describe.only("/api/users", () => {
+    test("GET 200- returns an array of users", () => {
+      return request(app)
+        .get("/api/users")
+        .expect(200)
+        .then((res) => {
+          console.log(res);
+          expect(res.body.users.length).toBe(4);
+
+          res.body.users.forEach((user) => {
+            expect(typeof user.username).toBe("string");
+            expect(typeof user.name).toBe("string");
+            expect(typeof user.avatar_url).toBe("string");
+          });
+        });
     });
   });
 });

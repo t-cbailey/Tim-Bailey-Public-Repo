@@ -7,9 +7,8 @@ const {
   selectReviews,
 
   findCommentsByRevID,
-
+  findUsers,
   patchReviewVotes,
-
 } = require("./models");
 const endpoints = require("./endpoints.json");
 const reviews = require("./db/data/test-data/reviews");
@@ -33,7 +32,6 @@ exports.getReviewByID = (req, res, next) => {
 exports.getEndpoints = (req, res, next) => {
   res.status(200).send({ endpoints });
 };
-
 
 exports.postReviewCommentById = (req, res, next) => {
   const id = req.params;
@@ -72,3 +70,10 @@ exports.patchReviewVotesByRevID = (req, res, next) => {
     .catch(next);
 };
 
+exports.getUsers = (req, res, next) => {
+  findUsers()
+    .then((users) => {
+      res.status(200).send({ users });
+    })
+    .catch(next);
+};
