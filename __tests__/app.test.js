@@ -87,6 +87,7 @@ describe.only("App", () => {
           expect(arr).toBeSortedBy("created_at");
         });
     });
+
     describe("/api/reviews/:review_id", () => {
       test("GET 200- should respond with a review object, of the correct id ", () => {
         return request(app)
@@ -337,6 +338,19 @@ describe.only("App", () => {
           });
       });
     });
+    // describe("/api/reviews (queries)", () => {
+    //   test("GET 200- allows sorting by category", () => {
+    //     return request(app)
+    //       .get("/api/reviews?category = dexterity")
+    //       .expect(200)
+    //       .then((res) => {
+    //         expect(res.body.reviews.length).toBe(1);
+    //         res.body.reviews.forEach((review) => {
+    //           expect(review.category).toBe("dexterity");
+    //         });
+    //       });
+    //   });
+    // });
   });
   describe("/api/comments", () => {
     describe("/api/comments/:comment_id", () => {
