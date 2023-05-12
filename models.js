@@ -7,7 +7,23 @@ exports.selectCategories = () => {
   });
 };
 
-exports.selectReviews = (category) => {
+exports.selectReviews = (category, sort_by = "reviews.created_at") => {
+  const validSortQueries = [
+    "owner",
+    "title",
+    "category",
+    "view_img_url",
+    "created_at",
+    "votes",
+    "designer",
+    "review_id",
+    "comment_count",
+  ];
+
+  // if (!validSortQueries.includes(sort_by)) {
+  //   return Promise.reject({ status: 400, msg: "Invalid sort_by query!" });
+  // }
+
   const queryValues = [];
   let queryStr = `SELECT owner, title, category, review_img_url, reviews.created_at, reviews.votes, designer,reviews.review_id, COUNT (comments.review_id) AS comment_count FROM reviews
   LEFT JOIN comments ON reviews.review_id = comments.review_id
@@ -20,7 +36,7 @@ exports.selectReviews = (category) => {
 
   queryStr += `
           GROUP BY reviews.review_id
-      	  ORDER BY reviews.created_at ASC
+      	  ORDER BY ${sort_by} ASC
         `;
 
   return connection.query(queryStr, queryValues).then((res) => {

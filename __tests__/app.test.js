@@ -351,15 +351,15 @@ describe("App", () => {
           });
       });
     });
-    // test("GET 200- allows sorting by any column", () => {
-    //   return request(app)
-    //     .get("/api/reviews?sort_by=name")
-    //     .expect(200)
-    //     .then((res) => {
-    //       expect(res.body.reviews.length).toBe(13);
-    //       expect(res.body.reviews).toBeSortedBy("name");
-    //     });
-    // });
+    test("GET 200- allows sorting by any column", () => {
+      return request(app)
+        .get("/api/reviews?sort_by=title")
+        .expect(200)
+        .then((res) => {
+          expect(res.body.reviews.length).toBe(13);
+          expect(res.body.reviews).toBeSortedBy("title");
+        });
+    });
   });
   describe("/api/comments", () => {
     describe("/api/comments/:comment_id", () => {
