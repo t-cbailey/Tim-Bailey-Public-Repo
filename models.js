@@ -89,3 +89,12 @@ exports.patchReviewVotes = (id, votes) => {
     });
   }
 };
+
+exports.removeComment = (id) => {
+  return Promise.all([
+    checkExists("comments", "comment_id", id),
+    connection.query(`DELETE FROM comments WHERE comment_id = $1`, [id]),
+  ]).then(([unusedCHKESTS, dbOutput]) => {
+    return undefined;
+  });
+};
