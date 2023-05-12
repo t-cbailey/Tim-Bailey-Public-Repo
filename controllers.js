@@ -69,8 +69,8 @@ exports.patchReviewVotesByRevID = (req, res, next) => {
 exports.deleteCommentById = (req, res, next) => {
   const id = req.params.comment_id;
   removeComment(id)
-    .then((output) => {
-      res.status(201).send(output);
+    .then(() => {
+      res.status(204).send();
     })
     .catch(next);
 };
