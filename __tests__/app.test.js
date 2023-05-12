@@ -344,8 +344,12 @@ describe.only("App", () => {
         return request(app)
           .delete("/api/comments/1")
           .expect(204)
-          .then((res) => {
-            expect(res.body).toEqual({});
+          .then(() => {
+            return connection
+              .query(`SELECT * FROM comments WHERE comment_id = 1`)
+              .then(({ rowCount }) => {
+                expect(rowCount).toBe(0);
+              });
           });
       });
       test("GET 404 when passed anything other than a number", () => {
