@@ -352,22 +352,22 @@ describe.only("App", () => {
               });
           });
       });
-      test("GET 404 when passed anything other than a number", () => {
+      test("GET 400 when passed anything other than a number", () => {
         return request(app)
-          .get("/api/comments/nonsense")
-          .expect(404)
+          .delete("/api/comments/nonsense")
+          .expect(400)
           .then((res) => {
-            expect(res.body.msg).toBe("Sorry can't find that!");
+            expect(res.body.msg).toBe("Invalid Input");
           });
       });
-      //     test("GET 400 when id is correct but comment doesnt exist", () => {
-      //       return request(app)
-      //         .get("/api/comments/2000")
-      //         .expect(400)
-      //         .then((res) => {
-      //           expect(res.body.msg).toBe("Sorry can't find that!");
-      //         });
-      //     });
+      test("GET 404 when id is correct but comment doesnt exist", () => {
+        return request(app)
+          .delete("/api/comments/2000")
+          .expect(404)
+          .then((res) => {
+            expect(res.body.msg).toBe("Resource not found");
+          });
+      });
     });
   });
 });
