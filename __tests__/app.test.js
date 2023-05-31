@@ -13,7 +13,7 @@ beforeEach(() => {
   return seed(data);
 });
 
-describe.only("App", () => {
+describe("App", () => {
   test("status 404- page not found for incorrect endpoint ", () => {
     return request(app)
       .get("/api/nonsense")
@@ -339,54 +339,55 @@ describe.only("App", () => {
       });
     });
   });
+});
 
-  describe.only("/api/users", () => {
-    test("GET 200- returns an array of users", () => {
-      return request(app)
-        .get("/api/users")
-        .expect(200)
-        .then((res) => {
-          console.log(res);
-          expect(res.body.users.length).toBe(4);
+describe("/api/users", () => {
+  test("GET 200- returns an array of users", () => {
+    return request(app)
+      .get("/api/users")
+      .expect(200)
+      .then((res) => {
+        console.log(res);
+        expect(res.body.users.length).toBe(4);
 
-          res.body.users.forEach((user) => {
-            expect(typeof user.username).toBe("string");
-            expect(typeof user.name).toBe("string");
-            expect(typeof user.avatar_url).toBe("string");
-          });
+        res.body.users.forEach((user) => {
+          expect(typeof user.username).toBe("string");
+          expect(typeof user.name).toBe("string");
+          expect(typeof user.avatar_url).toBe("string");
         });
+      });
+  });
+});
 
-  describe("/api/comments", () => {
-    describe("/api/comments/:comment_id", () => {
-      test("DELETE 204 - should delete a comment with given comment_id and return no content", () => {
-        return request(app)
-          .delete("/api/comments/1")
-          .expect(204)
-          .then(() => {
-            return connection
-              .query(`SELECT * FROM comments WHERE comment_id = 1`)
-              .then(({ rowCount }) => {
-                expect(rowCount).toBe(0);
-              });
-          });
-      });
-      test("GET 400 when passed anything other than a number", () => {
-        return request(app)
-          .delete("/api/comments/nonsense")
-          .expect(400)
-          .then((res) => {
-            expect(res.body.msg).toBe("Invalid Input");
-          });
-      });
-      test("GET 404 when id is correct but comment doesnt exist", () => {
-        return request(app)
-          .delete("/api/comments/2000")
-          .expect(404)
-          .then((res) => {
-            expect(res.body.msg).toBe("Resource not found");
-          });
-      });
-
+describe("/api/comments", () => {
+  describe("/api/comments/:comment_id", () => {
+    test("DELETE 204 - should delete a comment with given comment_id and return no content", () => {
+      return request(app)
+        .delete("/api/comments/1")
+        .expect(204)
+        .then(() => {
+          return connection
+            .query(`SELECT * FROM comments WHERE comment_id = 1`)
+            .then(({ rowCount }) => {
+              expect(rowCount).toBe(0);
+            });
+        });
+    });
+    test("GET 400 when passed anything other than a number", () => {
+      return request(app)
+        .delete("/api/comments/nonsense")
+        .expect(400)
+        .then((res) => {
+          expect(res.body.msg).toBe("Invalid Input");
+        });
+    });
+    test("GET 404 when id is correct but comment doesnt exist", () => {
+      return request(app)
+        .delete("/api/comments/2000")
+        .expect(404)
+        .then((res) => {
+          expect(res.body.msg).toBe("Resource not found");
+        });
     });
   });
 });
