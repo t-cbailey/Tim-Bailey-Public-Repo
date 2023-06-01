@@ -240,7 +240,7 @@ describe("App", () => {
     describe("/api/reviews/:review_id/comments", () => {
       test("POST 201- adds a comment to the database", () => {
         const commentData = {
-          username: "mallionaire",
+          author: "mallionaire",
           body: "my review text",
         };
         return request(app)
@@ -259,7 +259,7 @@ describe("App", () => {
 
       test("POST 404- incorrect username", () => {
         const commentData = {
-          username: "timbo",
+          author: "timbo",
           body: "my review text",
         };
         return request(app)
@@ -272,7 +272,7 @@ describe("App", () => {
       });
       test("POST 404- review_id not found", () => {
         const commentData = {
-          username: "mallionaire",
+          author: "mallionaire",
           body: "my review text",
         };
         return request(app)
@@ -286,7 +286,7 @@ describe("App", () => {
 
       test("POST 400- review_id invalid", () => {
         const commentData = {
-          username: "mallionaire",
+          author: "mallionaire",
           body: "my review text",
         };
         return request(app)
@@ -299,7 +299,7 @@ describe("App", () => {
       });
       test("POST 400- incorrect body format- too much data", () => {
         const commentData = {
-          username: "mallionaire",
+          author: "mallionaire",
           body: "bodytext",
           extraProp1: "prop",
           extraProp2: "prop2",
@@ -327,7 +327,7 @@ describe("App", () => {
       });
       test("POST 400- incorrect body format- wrong body type", () => {
         const commentData = {
-          username: "mallionaire",
+          author: "mallionaire",
           body: 1,
         };
         return request(app)

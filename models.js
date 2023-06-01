@@ -66,9 +66,9 @@ exports.findReviewByID = (id) => {
 
 exports.postReviewComment = (id, data) => {
   const review_id = parseInt(id.review_id);
-  const { username, body } = data;
+  const { author, body } = data;
   if (
-    !data.hasOwnProperty("username") ||
+    !data.hasOwnProperty("author") ||
     !data.hasOwnProperty("body") ||
     typeof data.body !== "string" ||
     Object.keys(data).length > 2
@@ -78,7 +78,7 @@ exports.postReviewComment = (id, data) => {
     return connection
       .query(
         `INSERT INTO comments (author, body, review_id) VALUES ($1, $2, $3) RETURNING *`,
-        [username, body, review_id]
+        [author, body, review_id]
       )
       .then((res) => {
         return res.rows;
