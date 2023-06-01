@@ -425,7 +425,6 @@ describe("/api/users", () => {
       .get("/api/users")
       .expect(200)
       .then((res) => {
-        console.log(res);
         expect(res.body.users.length).toBe(4);
 
         res.body.users.forEach((user) => {
