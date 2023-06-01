@@ -88,6 +88,7 @@ describe("App", () => {
           expect(arr).toBeSortedBy("created_at");
         });
     });
+
     describe("/api/reviews/:review_id", () => {
       test("GET 200- should respond with a review object, of the correct id ", () => {
         return request(app)
@@ -335,6 +336,83 @@ describe("App", () => {
           .expect(400)
           .then(({ body }) => {
             expect(body.msg).toBe("Unsupported body format");
+          });
+      });
+    });
+    describe("/api/reviews (queries)", () => {
+      test("GET 200- allows filtering by category", () => {
+        return request(app)
+          .get("/api/reviews?category=dexterity")
+          .expect(200)
+          .then((res) => {
+            expect(res.body.reviews.length).toBe(1);
+            res.body.reviews.forEach((review) => {
+              expect(review.category).toBe("dexterity");
+            });
+          });
+      });
+      test("GET 200- allows sorting by any column('title')", () => {
+        return request(app)
+          .get("/api/reviews?sort_by=title")
+          .expect(200)
+          .then((res) => {
+            expect(res.body.reviews.length).toBe(13);
+            expect(res.body.reviews).toBeSortedBy("title");
+          });
+      });
+      test("GET 200- allows sorting by any column('designer')", () => {
+        return request(app)
+          .get("/api/reviews?sort_by=designer")
+          .expect(200)
+          .then((res) => {
+            expect(res.body.reviews.length).toBe(13);
+            expect(res.body.reviews).toBeSortedBy("designer");
+          });
+      });
+      test("GET 200- allows ordering by ASC order", () => {
+        return request(app)
+          .get("/api/reviews?order_by=ASC")
+          .expect(200)
+          .then((res) => {
+            expect(res.body.reviews.length).toBe(13);
+            expect(res.body.reviews).toBeSortedBy("created_at", {
+              ascending: true,
+            });
+          });
+      });
+      test("GET 200- allows ordering by DESC order", () => {
+        return request(app)
+          .get("/api/reviews?order_by=DESC")
+          .expect(200)
+          .then((res) => {
+            expect(res.body.reviews.length).toBe(13);
+            expect(res.body.reviews).toBeSortedBy("created_at", {
+              descending: true,
+            });
+          });
+      });
+      test("GET 204- returns nothing when an incorrect category is queried", () => {
+        return request(app)
+          .get("/api/reviews?category=nonsense")
+          .expect(200)
+          .then((res) => {
+            expect(res.body.reviews.length).toBe(0);
+          });
+      });
+      test("GET 400- will not allow sort_by requests that are not on the green list", () => {
+        return request(app)
+          .get("/api/reviews?sort_by=some-nonsense")
+          .expect(400)
+          .then((res) => {
+            expect(res.body.msg).toBe("Invalid sort_by query!");
+          });
+      });
+      test("GET 400- will not allow an order_by request that is not on the green list", () => {
+        return request(app)
+          .get("/api/reviews?order_by=somenonsense")
+          .expect(400)
+          .then((res) => {
+            expect(res.body.msg).toBe("Invalid order_by query!");
           });
       });
     });
